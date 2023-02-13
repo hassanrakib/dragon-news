@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { toast, Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
@@ -8,6 +9,7 @@ const Register = () => {
   const [error, setError] = useState(null);
   const { createUser, updateUserProfile, verifyEmail } =
     useContext(AuthContext);
+
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -27,6 +29,10 @@ const Register = () => {
 
         // send verification email
         handleVerifyEmail();
+
+        // show toaster after sending verification email
+        // <Toaster /> component is used at the app component
+        toast.success("Please verify your email.");
       })
       .catch((error) => {
         setError(error.message);
@@ -49,7 +55,7 @@ const Register = () => {
   const handleVerifyEmail = () => {
     verifyEmail()
       .then(() => {
-        console.log('Email verification sent');
+        console.log("Email verification sent");
       })
       .catch((error) => setError(error.message));
   };

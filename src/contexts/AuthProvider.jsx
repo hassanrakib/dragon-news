@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -54,7 +55,10 @@ const AuthProvider = ({ children }) => {
   //   observer to observe the auth state change
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+      // set the user if user doesn't exist (did logout) or user email is verified
+      if (currentUser === null || currentUser.emailVerified) {
+        setUser(currentUser);
+      }
       // set loading state to false
       setLoading(false);
     });
@@ -72,6 +76,7 @@ const AuthProvider = ({ children }) => {
     signInUser,
     updateUserProfile,
     verifyEmail,
+    setLoading,
     loading,
   };
   return (
