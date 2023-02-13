@@ -14,27 +14,38 @@ const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   //   provider login with popup
-  const providerLogin = (provider) => signInWithPopup(auth, provider);
+  const providerLogin = (provider) => {
+    setLoading(true);
+    return signInWithPopup(auth, provider);
+  };
 
   // create user with email and password
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // sign in user with email and password
   const signInUser = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   //   logout user
-  const logOut = () => signOut(auth);
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
 
   //   observer to observe the auth state change
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      // set loading state to false
+      setLoading(false);
     });
     // remove the observer before the component unmounts
     return () => {
@@ -42,7 +53,14 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  const authInfo = { user, providerLogin, logOut, createUser, signInUser };
+  const authInfo = {
+    user,
+    providerLogin,
+    logOut,
+    createUser,
+    signInUser,
+    loading,
+  };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );

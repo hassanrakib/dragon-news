@@ -7,6 +7,7 @@ import Home from "../pages/Home/Home/Home";
 import News, { loader as singleNewsLoader } from "../pages/News/News/News";
 import Register from "../pages/Register/Register/Register";
 import Login from "../pages/Login/Login/Login";
+import PrivateRoute from "./PrivateRoute";
 
 export const routes = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ export const routes = createBrowserRouter([
       },
       {
         path: "news/:id",
-        element: <News />,
+        element: <PrivateRoute><News /></PrivateRoute>,
         loader: singleNewsLoader,
       },
       {
