@@ -8,6 +8,7 @@ import News, { loader as singleNewsLoader } from "../pages/News/News/News";
 import Register from "../pages/Register/Register/Register";
 import Login from "../pages/Login/Login/Login";
 import PrivateRoute from "./PrivateRoute";
+import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions/TermsAndConditions";
 
 export const routes = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ export const routes = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
+      {
+        path:"/terms-and-conditions",
+        element: <TermsAndConditions />
+      }
     ],
   },
 ]);

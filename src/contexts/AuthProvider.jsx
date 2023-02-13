@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 
@@ -34,6 +35,16 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  // update user's profile
+  const updateUserProfile = (profile) => {
+    return updateProfile(auth.currentUser, profile);
+  };
+
+  // send verification email
+  const verifyEmail = () => {
+    return sendEmailVerification(auth.currentUser);
+  };
+
   //   logout user
   const logOut = () => {
     setLoading(true);
@@ -59,6 +70,8 @@ const AuthProvider = ({ children }) => {
     logOut,
     createUser,
     signInUser,
+    updateUserProfile,
+    verifyEmail,
     loading,
   };
   return (

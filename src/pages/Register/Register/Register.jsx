@@ -1,10 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
 const Register = () => {
+  const [TCAccepted, setTCAccepted] = useState(false);
   const [error, setError] = useState(null);
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile, verifyEmail } =
+    useContext(AuthContext);
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -18,11 +21,41 @@ const Register = () => {
         const user = result.user;
         form.reset();
         setError(null);
-        console.log(user);
+
+        // update user's profile
+        handleUpdateUserProfile(name, photoURL);
+
+        // send verification email
+        handleVerifyEmail();
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error.message);
       });
+  };
+
+  const handleUpdateUserProfile = (displayName, photoURL) => {
+    // update specific properties
+    const profile = { displayName, photoURL };
+
+    updateUserProfile(profile)
+      .then(() => {
+        console.log("profile updated");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
+
+  const handleVerifyEmail = () => {
+    verifyEmail()
+      .then(() => {
+        console.log('Email verification sent');
+      })
+      .catch((error) => setError(error.message));
+  };
+
+  const handleTCAccepted = (e) => {
+    setTCAccepted(e.target.checked);
   };
 
   return (
@@ -69,12 +102,23 @@ const Register = () => {
           required
         />
       </Form.Group>
+      <Form.Group className="mb-3" controlId="formBasicCheckbox">
+        <Form.Check
+          onChange={handleTCAccepted}
+          value={TCAccepted}
+          type="checkbox"
+          className="d-inline me-2"
+        />
+        <Form.Label className="d-inline">
+          Accept <Link to="/terms-and-conditions">Terms & Conditions</Link>
+        </Form.Label>
+      </Form.Group>
       {error && (
         <Form.Group>
           <Form.Text className="text-danger">{error}</Form.Text>
         </Form.Group>
       )}
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" disabled={!TCAccepted}>
         Register
       </Button>
     </Form>
