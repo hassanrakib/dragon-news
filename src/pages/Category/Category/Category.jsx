@@ -1,5 +1,6 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
+import NewsCard from "../../Shared/NewsCard/NewsCard";
 
 export const loader = async ({ params }) => {
   const categoryId = params.id;
@@ -9,11 +10,12 @@ export const loader = async ({ params }) => {
 };
 
 const Category = () => {
-  console.log('category rendered');
   const { newsByCategory } = useLoaderData();
   return (
     <div>
-      <h2>This is Category: {newsByCategory.length}</h2>
+      {newsByCategory.map((news) => (
+        <NewsCard key={news._id} news={news} />
+      ))}
     </div>
   );
 };
