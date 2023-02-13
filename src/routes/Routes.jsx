@@ -5,6 +5,8 @@ import Category, {
 } from "../pages/Category/Category/Category";
 import Home from "../pages/Home/Home/Home";
 import News, { loader as singleNewsLoader } from "../pages/News/News/News";
+import Register from "../pages/Register/Register/Register";
+import Login from "../pages/Login/Login/Login";
 
 export const routes = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ export const routes = createBrowserRouter([
         path: "category/:id",
         element: <Category />,
         loader: categoryNewsLoader,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },
