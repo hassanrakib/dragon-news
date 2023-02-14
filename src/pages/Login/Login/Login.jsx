@@ -6,7 +6,7 @@ import { AuthContext } from "../../../contexts/AuthProvider";
 
 const Login = () => {
   const [error, setError] = useState(null);
-  const { signInUser, setLoading } = useContext(AuthContext);
+  const { signInUser, logOut } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,15 +31,18 @@ const Login = () => {
           navigate(from, { replace: true });
         } else {
           toast.error("Email is not verified");
+          // when user sign (or create) in with the email that is not verified
+          // we don't allow the user to be set on the user variable
+          // that means the user can already be signed in to firebase but not set in user variable
+          // we don't see user and try to login with unverified email sets the setLoading to true
+          // because the user is not changed in firebase and onAuthStateChanged is not called
+          // to fix this logOut user with unverified email address
+          logOut();
         }
-        console.log(user);
       })
       .catch((error) => {
         console.log(error.message);
         setError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   };
   return (

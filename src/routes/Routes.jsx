@@ -9,6 +9,7 @@ import Register from "../pages/Register/Register/Register";
 import Login from "../pages/Login/Login/Login";
 import PrivateRoute from "./PrivateRoute";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions/TermsAndConditions";
+import Profile from "../pages/Profile/Profile/Profile";
 
 export const routes = createBrowserRouter([
   {
@@ -22,7 +23,11 @@ export const routes = createBrowserRouter([
       },
       {
         path: "news/:id",
-        element: <PrivateRoute><News /></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <News />
+          </PrivateRoute>
+        ),
         loader: singleNewsLoader,
       },
       {
@@ -31,17 +36,25 @@ export const routes = createBrowserRouter([
         loader: categoryNewsLoader,
       },
       {
-        path: "/register",
+        path: "register",
         element: <Register />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <Login />,
       },
       {
-        path:"/terms-and-conditions",
-        element: <TermsAndConditions />
-      }
+        path: "terms-and-conditions",
+        element: <TermsAndConditions />,
+      },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);

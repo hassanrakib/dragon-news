@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB9TFVmiI38vD-unV08Q62nvvAdcvvf8AU",
-  authDomain: "firbase-login-system.firebaseapp.com",
-  projectId: "firbase-login-system",
-  storageBucket: "firbase-login-system.appspot.com",
-  messagingSenderId: "626250886833",
-  appId: "1:626250886833:web:b18aa424909ec81f2bbc90",
+  apiKey: import.meta.env.apiKey,
+  authDomain: import.meta.env.authDomain,
+  projectId: import.meta.env.projectId,
+  storageBucket: import.meta.env.storageBucket,
+  messagingSenderId: import.meta.env.messagingSenderId,
+  appId: import.meta.env.appId,
 };
 
 const app = initializeApp(firebaseConfig);

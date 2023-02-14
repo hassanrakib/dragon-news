@@ -31,7 +31,7 @@ const Header = () => {
     >
       <Container>
         <Navbar.Brand>
-          <Link to="/" className="text-decoration-none">
+          <Link to="/" className="text-decoration-none fs-4 fw-semibold">
             Dragon News
           </Link>
         </Navbar.Brand>
@@ -41,15 +41,19 @@ const Header = () => {
             {user ? (
               user.photoURL ? (
                 <Nav.Link as="p">
-                  <Image
-                    roundedCircle
-                    style={{ height: "35px" }}
-                    src={user.photoURL}
-                  />
+                  <Link to="/profile">
+                    <Image
+                      roundedCircle
+                      style={{ height: "35px" }}
+                      src={user.photoURL}
+                    />
+                  </Link>
                 </Nav.Link>
               ) : (
                 <Nav.Link as="p">
-                  <FaUser />
+                  <Link to="/profile">
+                    <FaUser />
+                  </Link>
                 </Nav.Link>
               )
             ) : null}

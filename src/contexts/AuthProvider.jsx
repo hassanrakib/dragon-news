@@ -52,9 +52,11 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  //   observer to observe the auth state change
+  // observer to observe the auth state change
+  // onAuthStateChanged will only be called when the user from firebase changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log(currentUser);
       // set the user if user doesn't exist (did logout) or user email is verified
       if (currentUser === null || currentUser.emailVerified) {
         setUser(currentUser);

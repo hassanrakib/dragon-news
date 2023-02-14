@@ -7,7 +7,7 @@ import { AuthContext } from "../../../contexts/AuthProvider";
 const Register = () => {
   const [TCAccepted, setTCAccepted] = useState(false);
   const [error, setError] = useState(null);
-  const { createUser, updateUserProfile, verifyEmail } =
+  const { createUser, updateUserProfile, verifyEmail, logOut } =
     useContext(AuthContext);
 
   const handleRegister = (e) => {
@@ -26,13 +26,6 @@ const Register = () => {
 
         // update user's profile
         handleUpdateUserProfile(name, photoURL);
-
-        // send verification email
-        handleVerifyEmail();
-
-        // show toaster after sending verification email
-        // <Toaster /> component is used at the app component
-        toast.success("Please verify your email.");
       })
       .catch((error) => {
         setError(error.message);
@@ -46,18 +39,21 @@ const Register = () => {
     updateUserProfile(profile)
       .then(() => {
         console.log("profile updated");
+
+        // send verification email after updating the profile
+        return verifyEmail();
+      })
+      .then(() => {
+        // show toaster after sending verification email
+        // <Toaster /> component is used at the app component
+        toast.success("Please verify your email and sign in.");
+
+        // logout the user to hit onAuthStateChange() after completing email verification and log in
+        logOut();
       })
       .catch((error) => {
         setError(error.message);
       });
-  };
-
-  const handleVerifyEmail = () => {
-    verifyEmail()
-      .then(() => {
-        console.log("Email verification sent");
-      })
-      .catch((error) => setError(error.message));
   };
 
   const handleTCAccepted = (e) => {
